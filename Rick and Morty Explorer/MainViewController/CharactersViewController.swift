@@ -59,6 +59,10 @@ extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("did select \(indexPath.row) row")
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        charactersLoadServise.tableViewWillDisplay(RowAt: indexPath.row)
+    }
 }
 
 extension CharactersViewController: UITableViewDataSource {
