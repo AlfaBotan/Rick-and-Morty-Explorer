@@ -11,9 +11,10 @@ import rick_morty_swift_api
 final class CharactersLoadServise {
     
     private let rmClient = RMClient()
-    private var characterModelsArray: [CharacterModel] = []
     
+    private var characterModelsArray: [CharacterModel] = []
     private var numberOFpage = 1
+    
     var reloadTableView: (() -> Void)?
     
     func loadData() {

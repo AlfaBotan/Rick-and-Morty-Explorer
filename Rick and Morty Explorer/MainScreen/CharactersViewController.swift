@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class CharactersViewController: UIViewController {
     
@@ -45,7 +46,6 @@ final class CharactersViewController: UIViewController {
     
     private func setUpBinding() {
         charactersLoadServise.reloadTableView = { [weak self] in
-            print("Попали в байндинг")
             guard let self = self else {return}
             self.charactersTableView.reloadData()
         }
@@ -57,7 +57,12 @@ final class CharactersViewController: UIViewController {
 
 extension CharactersViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("did select \(indexPath.row) row")
+        let char = charactersLoadServise.getChar(index: indexPath.row)
+        let swiftUIView = DetailView(character: char)
+
+        let hostingController = UIHostingController(rootView: swiftUIView)
+
+        self.navigationController?.pushViewController(hostingController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -67,7 +72,6 @@ extension CharactersViewController: UITableViewDelegate {
 
 extension CharactersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("\(charactersLoadServise.numberOfCharacters())")
         return charactersLoadServise.numberOfCharacters()
     }
     
@@ -76,6 +80,7 @@ extension CharactersViewController: UITableViewDataSource {
             assertionFailure("Не удалось выполнить приведение к CharactersTableViewCell")
             return UITableViewCell()
         }
+        
         let char = charactersLoadServise.getChar(index: indexPath.row)
         let name = char.name
         let status = StatusEnum(rawValue: char.status) ?? StatusEnum.unknown
