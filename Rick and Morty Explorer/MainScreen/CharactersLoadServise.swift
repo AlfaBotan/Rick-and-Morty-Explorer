@@ -7,6 +7,7 @@
 
 import Foundation
 import rick_morty_swift_api
+import ProgressHUD
 
 final class CharactersLoadServise {
     

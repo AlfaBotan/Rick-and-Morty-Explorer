@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import ProgressHUD
 
 final class CharactersViewController: UIViewController {
     
@@ -38,6 +39,7 @@ final class CharactersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
+        ProgressHUD.animate()
         configSubviews()
         configConstraints()
         setUpBinding()
@@ -67,6 +69,7 @@ final class CharactersViewController: UIViewController {
         charactersLoadServise.reloadTableView = { [weak self] in
             guard let self = self else {return}
             self.charactersTableView.reloadData()
+            ProgressHUD.dismiss()
         }
     }
     
