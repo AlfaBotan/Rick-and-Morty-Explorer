@@ -128,6 +128,8 @@ extension CharactersViewController: UINavigationControllerDelegate {
     }
 }
 
+//MARK: UISearchBarDelegate
+
 extension CharactersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         charactersLoadServise.filterCharacters(by: searchText)
