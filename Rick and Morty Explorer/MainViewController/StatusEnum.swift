@@ -5,8 +5,8 @@
 //  Created by Илья Волощик on 11.03.25.
 //
 
-enum StatusEnum {
-    case dead
-    case alive
-    case unknown
+enum StatusEnum: String {
+    case dead = "Dead"
+    case alive = "Alive"
+    case unknown = "Unknown"
 }

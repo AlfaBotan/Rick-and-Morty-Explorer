@@ -7,7 +7,9 @@
 
 import UIKit
 
-class CharactersViewController: UIViewController {
+final class CharactersViewController: UIViewController {
+    
+    private let charactersLoadServise = CharactersLoadServise()
     
     private lazy var charactersTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -24,6 +26,8 @@ class CharactersViewController: UIViewController {
         super.viewDidLoad()
         configSubviews()
         configConstraints()
+        setUpBinding()
+        charactersLoadServise.loadData()
     }
     
     private func configSubviews() {
@@ -38,16 +42,29 @@ class CharactersViewController: UIViewController {
             charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
+    
+    private func setUpBinding() {
+        charactersLoadServise.reloadTableView = { [weak self] in
+            print("Попали в байндинг")
+            guard let self = self else {return}
+            self.charactersTableView.reloadData()
+        }
+    }
+    
 }
 
+//MARK: UITableViewDelegate and UITableViewDataSource
+
 extension CharactersViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("did select \(indexPath.row) row")
+    }
 }
 
 extension CharactersViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        print("\(charactersLoadServise.numberOfCharacters())")
+        return charactersLoadServise.numberOfCharacters()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,11 +72,12 @@ extension CharactersViewController: UITableViewDataSource {
             assertionFailure("Не удалось выполнить приведение к CharactersTableViewCell")
             return UITableViewCell()
         }
-        let url = URL(string: "https://rickandmortyapi.com/api/character/avatar/361.jpeg")
-        cell.configCell(name: "Rick", status: StatusEnum.unknown, image: url!)
+        let char = charactersLoadServise.getChar(index: indexPath.row)
+        let name = char.name
+        let status = StatusEnum(rawValue: char.status) ?? StatusEnum.unknown
+        let urlForImage = URL(string: char.image)
+        cell.configCell(name: name, status: status, image: urlForImage)
         return cell
     }
-    
-    
 }
 

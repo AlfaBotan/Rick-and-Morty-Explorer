@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ca36a61ff4abf417842daa08db83926a5b53c93475117297e3cb9099bc72fb9",
+  "originHash" : "9cca0ff66be874ec7cd54079f43e4f915c929cb1f9fea27dc7e796128147dd6a",
   "pins" : [
     {
       "identity" : "kingfisher",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "9364904a42cb25f58d026451140c4080a868e72e",
         "version" : "14.1.3"
+      }
+    },
+    {
+      "identity" : "rick-and-morty-swift-api",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/benjaminbruch/Rick-and-Morty-Swift-API",
+      "state" : {
+        "revision" : "4ca6dda9e32481aca9c4927ca7b5638d71d7b699",
+        "version" : "1.0.0"
       }
     }
   ],

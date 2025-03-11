@@ -73,7 +73,7 @@ final class CharactersTableViewCell: UITableViewCell {
         ])
     }
     
-    func configCell(name: String, status: StatusEnum, image: URL) {
+    func configCell(name: String, status: StatusEnum, image: URL?) {
         let urlForImage = image
         mainImage.kf.setImage(
             with: urlForImage,
