@@ -96,4 +96,8 @@ final class CharactersTableViewCell: UITableViewCell {
             statusLabel.textColor = .gray
         }
     }
+    
+    func getImageFrame() -> CGRect {
+        return mainImage.frame
+    }
 }

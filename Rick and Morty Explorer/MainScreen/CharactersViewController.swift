@@ -11,6 +11,7 @@ import SwiftUI
 final class CharactersViewController: UIViewController {
     
     private let charactersLoadServise = CharactersLoadServise()
+    private let transitionAnimator = CharacterTransitionAnimator()
     
     private lazy var charactersTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -25,6 +26,7 @@ final class CharactersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         configSubviews()
         configConstraints()
         setUpBinding()
@@ -56,14 +58,19 @@ final class CharactersViewController: UIViewController {
 //MARK: UITableViewDelegate and UITableViewDataSource
 
 extension CharactersViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let char = charactersLoadServise.getChar(index: indexPath.row)
-        let swiftUIView = DetailView(character: char)
+            let char = charactersLoadServise.getChar(index: indexPath.row)
+            let swiftUIView = DetailView(character: char)
+            let hostingController = UIHostingController(rootView: swiftUIView)
 
-        let hostingController = UIHostingController(rootView: swiftUIView)
+            
+            if let cell = tableView.cellForRow(at: indexPath) as? CharactersTableViewCell {
+                transitionAnimator.selectedCellFrame = cell.getImageFrame()
+            }
 
-        self.navigationController?.pushViewController(hostingController, animated: true)
-    }
+            self.navigationController?.pushViewController(hostingController, animated: true)
+        }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         charactersLoadServise.tableViewWillDisplay(RowAt: indexPath.row)
@@ -88,5 +95,19 @@ extension CharactersViewController: UITableViewDataSource {
         cell.configCell(name: name, status: status, image: urlForImage)
         return cell
     }
+}
+
+//MARK: UINavigationControllerDelegate
+
+extension CharactersViewController: UINavigationControllerDelegate {
+    func navigationController(
+         _ navigationController: UINavigationController,
+         animationControllerFor operation: UINavigationController.Operation,
+         from fromVC: UIViewController,
+         to toVC: UIViewController
+     ) -> UIViewControllerAnimatedTransitioning? {
+         transitionAnimator.isPresenting = operation == .push
+         return transitionAnimator
+     }
 }
 
