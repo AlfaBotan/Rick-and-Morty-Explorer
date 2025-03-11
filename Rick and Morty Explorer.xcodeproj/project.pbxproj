@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1CAC73CC2D806A8A009A6532 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1CAC73CB2D806A8A009A6532 /* Kingfisher */; };
+		1CAC73CF2D806AAA009A6532 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 1CAC73CE2D806AAA009A6532 /* ProgressHUD */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1CAC73812D805E0F009A6532 /* Rick and Morty Explorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rick and Morty Explorer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CAC73CC2D806A8A009A6532 /* Kingfisher in Frameworks */,
+				1CAC73CF2D806AAA009A6532 /* ProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = "Rick and Morty Explorer";
 			packageProductDependencies = (
+				1CAC73CB2D806A8A009A6532 /* Kingfisher */,
+				1CAC73CE2D806AAA009A6532 /* ProgressHUD */,
 			);
 			productName = "Rick and Morty Explorer";
 			productReference = 1CAC73812D805E0F009A6532 /* Rick and Morty Explorer.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 1CAC73782D805E0F009A6532;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1CAC73CA2D806A8A009A6532 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				1CAC73CD2D806AAA009A6532 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1CAC73822D805E0F009A6532 /* Products */;
 			projectDirPath = "";
@@ -333,6 +346,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1CAC73CA2D806A8A009A6532 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.0;
+			};
+		};
+		1CAC73CD2D806AAA009A6532 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/relatedcode/ProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1CAC73CB2D806A8A009A6532 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1CAC73CA2D806A8A009A6532 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		1CAC73CE2D806AAA009A6532 /* ProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1CAC73CD2D806AAA009A6532 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
+			productName = ProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1CAC73792D805E0F009A6532 /* Project object */;
 }
