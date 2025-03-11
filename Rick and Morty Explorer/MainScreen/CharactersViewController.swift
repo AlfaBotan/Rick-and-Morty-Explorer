@@ -13,6 +13,17 @@ final class CharactersViewController: UIViewController {
     private let charactersLoadServise = CharactersLoadServise()
     private let transitionAnimator = CharacterTransitionAnimator()
     
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.placeholder = "Search by name or status"
+        searchBar.delegate = self
+        searchBar.barTintColor = .black
+        searchBar.searchTextField.textColor = .white
+        searchBar.searchTextField.backgroundColor = .darkGray
+        return searchBar
+    }()
+    
     private lazy var charactersTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,12 +45,18 @@ final class CharactersViewController: UIViewController {
     }
     
     private func configSubviews() {
+        view.addSubview(searchBar)
         view.addSubview(charactersTableView)
     }
     
     private func configConstraints() {
+        
         NSLayoutConstraint.activate([
-            charactersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            charactersTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
             charactersTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             charactersTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -60,17 +77,17 @@ final class CharactersViewController: UIViewController {
 extension CharactersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let char = charactersLoadServise.getChar(index: indexPath.row)
-            let swiftUIView = DetailView(character: char)
-            let hostingController = UIHostingController(rootView: swiftUIView)
-
-            
-            if let cell = tableView.cellForRow(at: indexPath) as? CharactersTableViewCell {
-                transitionAnimator.selectedCellFrame = cell.getImageFrame()
-            }
-
-            self.navigationController?.pushViewController(hostingController, animated: true)
+        let char = charactersLoadServise.getChar(index: indexPath.row)
+        let swiftUIView = DetailView(character: char)
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? CharactersTableViewCell {
+            transitionAnimator.selectedCellFrame = cell.getImageFrame()
         }
+        
+        self.navigationController?.pushViewController(hostingController, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         charactersLoadServise.tableViewWillDisplay(RowAt: indexPath.row)
@@ -101,13 +118,23 @@ extension CharactersViewController: UITableViewDataSource {
 
 extension CharactersViewController: UINavigationControllerDelegate {
     func navigationController(
-         _ navigationController: UINavigationController,
-         animationControllerFor operation: UINavigationController.Operation,
-         from fromVC: UIViewController,
-         to toVC: UIViewController
-     ) -> UIViewControllerAnimatedTransitioning? {
-         transitionAnimator.isPresenting = operation == .push
-         return transitionAnimator
-     }
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
+        transitionAnimator.isPresenting = operation == .push
+        return transitionAnimator
+    }
+}
+
+extension CharactersViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        charactersLoadServise.filterCharacters(by: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
 
