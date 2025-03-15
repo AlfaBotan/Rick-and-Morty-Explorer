@@ -42,6 +42,7 @@ final class CharactersViewController: UIViewController {
         ProgressHUD.animate()
         configSubviews()
         configConstraints()
+        setupToHideKeyboardOnTapOnView()
         setUpBinding()
         charactersLoadServise.loadData()
     }
@@ -140,6 +141,12 @@ extension CharactersViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+}
+
+extension CharactersViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 
